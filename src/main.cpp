@@ -14,6 +14,7 @@
 #include "SunsetClass.h"
 #include "Utils.h"
 #include "WebApi.h"
+#include "Blinker.h"
 #include "defaults.h"
 #include <Arduino.h>
 #include <Hoymiles.h>
@@ -169,5 +170,7 @@ void loop()
     WebApi.loop();
     yield();
     MessageOutput.loop();
+    yield();
+    Blinker.loop();
     yield();
 }
