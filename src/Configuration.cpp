@@ -44,6 +44,13 @@ bool ConfigurationClass::write()
     ntp["timezone"] = config.Ntp_Timezone;
     ntp["timezone_descr"] = config.Ntp_TimezoneDescr;
 
+    JsonObject sunset = doc.createNestedObject("sunset");
+    sunset["enabled"] = config.Sunset_Enabled;
+    sunset["latitude"] = config.Sunset_Latitude;
+    sunset["longitude"] = config.Sunset_Longitude;
+    sunset["sunrise_offset"] = config.Sunset_Sunriseoffset;
+    sunset["sunset_offset"] = config.Sunset_Sunsetoffset;
+
     JsonObject mqtt = doc.createNestedObject("mqtt");
     mqtt["enabled"] = config.Mqtt_Enabled;
     mqtt["hostname"] = config.Mqtt_Hostname;
@@ -164,6 +171,13 @@ bool ConfigurationClass::read()
     strlcpy(config.Ntp_Timezone, ntp["timezone"] | NTP_TIMEZONE, sizeof(config.Ntp_Timezone));
     strlcpy(config.Ntp_TimezoneDescr, ntp["timezone_descr"] | NTP_TIMEZONEDESCR, sizeof(config.Ntp_TimezoneDescr));
 
+    JsonObject sunset = doc["sunset"];
+    config.Sunset_Enabled = sunset["enabled"] | SUNSET_ENABLED;
+    strlcpy(config.Sunset_Latitude, sunset["latitude"] | SUNSET_LATITUDE, sizeof(config.Sunset_Latitude));
+    strlcpy(config.Sunset_Longitude, sunset["longitude"] | SUNSET_LONGITUDE, sizeof(config.Sunset_Longitude));
+    config.Sunset_Sunriseoffset = sunset["sunrise_offset"] | SUNSET_SUNRISEOFFSET;
+    config.Sunset_Sunsetoffset = sunset["sunset_offset"] | SUNSET_SUNSETOFFSET;
+
     JsonObject mqtt = doc["mqtt"];
     config.Mqtt_Enabled = mqtt["enabled"] | MQTT_ENABLED;
     strlcpy(config.Mqtt_Hostname, mqtt["hostname"] | MQTT_HOST, sizeof(config.Mqtt_Hostname));
@@ -243,9 +257,9 @@ void ConfigurationClass::migrate()
         }
     }
 
+
     config.Cfg_Version = CONFIG_VERSION;
     write();
-    read();
 }
 
 CONFIG_T& ConfigurationClass::get()

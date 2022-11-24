@@ -8,6 +8,12 @@
 #include "Configuration.h"
 #include "defaults.h"
 
+static void ResetFunc(void)
+{
+    ESP.restart();
+}
+
+
 WebApiClass::WebApiClass()
     : _server(HTTP_PORT)
     , _events("/events")
@@ -20,7 +26,7 @@ void WebApiClass::init()
 
     _webApiConfig.init(&_server);
     _webApiDevInfo.init(&_server);
-    _webApiDtu.init(&_server);
+    _webApiDtu.init(&_server, &ResetFunc);
     _webApiEventlog.init(&_server);
     _webApiFirmware.init(&_server);
     _webApiInverter.init(&_server);

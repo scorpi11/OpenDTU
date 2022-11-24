@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 #define CONFIG_FILENAME "/config.json"
-#define CONFIG_VERSION 0x00011700 // 0.1.23 // make sure to clean all after change
+#define CONFIG_VERSION 0x00011800 // 0.1.24 // make sure to clean all after change
 
 #define WIFI_MAX_SSID_STRLEN 31
 #define WIFI_MAX_PASSWORD_STRLEN 64
@@ -13,6 +13,8 @@
 #define NTP_MAX_SERVER_STRLEN 31
 #define NTP_MAX_TIMEZONE_STRLEN 50
 #define NTP_MAX_TIMEZONEDESCR_STRLEN 50
+
+#define SUNSET_MAX_LONGLAT_STRLEN 10
 
 #define MQTT_MAX_HOSTNAME_STRLEN 128
 #define MQTT_MAX_USERNAME_STRLEN 64
@@ -57,6 +59,12 @@ struct CONFIG_T {
     char Ntp_Server[NTP_MAX_SERVER_STRLEN + 1];
     char Ntp_Timezone[NTP_MAX_TIMEZONE_STRLEN + 1];
     char Ntp_TimezoneDescr[NTP_MAX_TIMEZONEDESCR_STRLEN + 1];
+
+    bool Sunset_Enabled;
+    char Sunset_Latitude[SUNSET_MAX_LONGLAT_STRLEN + 1];
+    char Sunset_Longitude[SUNSET_MAX_LONGLAT_STRLEN + 1];
+    int16_t Sunset_Sunriseoffset;
+    int16_t Sunset_Sunsetoffset;
 
     bool Mqtt_Enabled;
     uint Mqtt_Port;

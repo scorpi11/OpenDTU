@@ -9,14 +9,16 @@
 #include "Hoymiles.h"
 #include "WebApi.h"
 
-void WebApiDtuClass::init(AsyncWebServer* server)
+void WebApiDtuClass::init(AsyncWebServer* server, void (*resetFunc)(void))
 {
     using std::placeholders::_1;
 
     _server = server;
+    _resetFunc = resetFunc;
 
     _server->on("/api/dtu/config", HTTP_GET, std::bind(&WebApiDtuClass::onDtuAdminGet, this, _1));
     _server->on("/api/dtu/config", HTTP_POST, std::bind(&WebApiDtuClass::onDtuAdminPost, this, _1));
+    _server->on("/api/dtu/restart", HTTP_POST, std::bind(&WebApiDtuClass::onDtuAdminRestartPost, this, _1));
 }
 
 void WebApiDtuClass::loop()
@@ -127,4 +129,33 @@ void WebApiDtuClass::onDtuAdminPost(AsyncWebServerRequest* request)
     Hoymiles.getRadio()->setPALevel((rf24_pa_dbm_e)config.Dtu_PaLevel);
     Hoymiles.getRadio()->setDtuSerial(config.Dtu_Serial);
     Hoymiles.setPollInterval(config.Dtu_PollInterval);
+}
+
+void WebApiDtuClass::onDtuAdminRestartPost(AsyncWebServerRequest* request)
+{
+    if (!WebApi.checkCredentials(request)) {
+        return;
+    }
+
+    AsyncJsonResponse* response = new AsyncJsonResponse();
+    JsonObject retMsg = response->getRoot();
+
+    if (_resetFunc == NULL) {
+        retMsg[F("type")] = F("error");
+        retMsg[F("message")] = F("No target specific reset function!");
+        response->setLength();
+        request->send(response);
+        return;
+    }
+
+    retMsg[F("type")] = F("success");
+    retMsg[F("message")] = F("restarting!");
+    response->setLength();
+    request->send(response);
+
+    yield();
+    delay(1000);
+    yield();
+
+    (*_resetFunc)();
 }

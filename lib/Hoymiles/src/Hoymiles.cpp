@@ -19,7 +19,7 @@ void HoymilesClass::init()
     _radio->init();
 }
 
-void HoymilesClass::loop()
+void HoymilesClass::loop(bool operate)
 {
     HOY_SEMAPHORE_TAKE();
     _radio->loop();
@@ -30,7 +30,7 @@ void HoymilesClass::loop()
 
             if (_radio->isIdle()) {
                 std::shared_ptr<InverterAbstract> iv = getInverterByPos(inverterPos);
-                if (iv != nullptr) {
+                if ((iv != nullptr) && operate) {
                     Serial.print(F("Fetch inverter: "));
                     Serial.println(iv->serial(), HEX);
 
