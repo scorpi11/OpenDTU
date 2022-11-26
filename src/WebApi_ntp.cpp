@@ -30,6 +30,10 @@ void WebApiNtpClass::loop()
 
 void WebApiNtpClass::onNtpStatus(AsyncWebServerRequest* request)
 {
+    if (!WebApi.checkCredentialsReadonly(request)) {
+        return;
+    }
+
     AsyncJsonResponse* response = new AsyncJsonResponse();
     JsonObject root = response->getRoot();
     const CONFIG_T& config = Configuration.get();

@@ -186,7 +186,7 @@ export default defineComponent({
         getNtpConfig() {
             this.dataLoading = true;
             fetch("/api/ntp/config", { headers: authHeader() })
-                .then((response) => handleResponse(response, this.$emitter))
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then(
                     (data) => {
                         this.ntpConfigList = data;
@@ -201,7 +201,7 @@ export default defineComponent({
         getCurrentTime() {
             this.dataLoading = true;
             fetch("/api/ntp/time", { headers: authHeader() })
-                .then((response) => handleResponse(response, this.$emitter))
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then(
                     (data) => {
                         this.mcuTime = new Date(
@@ -229,7 +229,7 @@ export default defineComponent({
                 headers: authHeader(),
                 body: formData,
             })
-                .then((response) => handleResponse(response, this.$emitter))
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then(
                     (response) => {
                         this.alertMessage = response.message;
@@ -252,7 +252,7 @@ export default defineComponent({
                 headers: authHeader(),
                 body: formData,
             })
-                .then((response) => handleResponse(response, this.$emitter))
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then(
                     (response) => {
                         this.alertMessage = response.message;

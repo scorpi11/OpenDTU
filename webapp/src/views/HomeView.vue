@@ -342,7 +342,7 @@ import type { EventlogItems } from '@/types/EventlogStatus';
 import type { LiveData, Inverter } from '@/types/LiveDataStatus';
 import type { LimitStatus } from '@/types/LimitStatus';
 import type { LimitConfig } from '@/types/LimitConfig';
-import { isLoggedIn, handleResponse, authHeader } from '@/utils/authentication';
+import { isLoggedIn, handleResponse, authHeader, authUrl } from '@/utils/authentication';
 import { formatNumber } from '@/utils';
 
 export default defineComponent({
@@ -463,8 +463,8 @@ export default defineComponent({
         isLoggedIn,
         getInitialData() {
             this.dataLoading = true;
-            fetch("/api/livedata/status")
-                .then((response) => response.json())
+            fetch("/api/livedata/status", { headers: authHeader() })
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then((data) => {
                     this.liveData = data;
                     this.dataLoading = false;
@@ -474,8 +474,9 @@ export default defineComponent({
             console.log("Starting connection to WebSocket Server");
 
             const { protocol, host } = location;
+            const authString = authUrl();
             const webSocketUrl = `${protocol === "https:" ? "wss" : "ws"
-                }://${host}/livedata`;
+                }://${authString}${host}/livedata`;
 
             this.socket = new WebSocket(webSocketUrl);
 
@@ -498,9 +499,11 @@ export default defineComponent({
         },
         initDataAgeing() {
             this.dataAgeInterval = setInterval(() => {
-                this.inverterData.forEach(element => {
-                    element.data_age++;
-                });
+                if (this.inverterData) {
+                    this.inverterData.forEach(element => {
+                        element.data_age++;
+                    });
+                }
             }, 1000);
         },
         // Send heartbeat packets regularly * 59s Send a heartbeat
@@ -526,8 +529,8 @@ export default defineComponent({
         },
         onShowEventlog(serial: number) {
             this.eventLogLoading = true;
-            fetch("/api/eventlog/status?inv=" + serial)
-                .then((response) => response.json())
+            fetch("/api/eventlog/status?inv=" + serial, { headers: authHeader() })
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then((data) => {
                     this.eventLogList = data[serial];
                     this.eventLogLoading = false;
@@ -540,8 +543,8 @@ export default defineComponent({
         },
         onShowDevInfo(serial: number) {
             this.devInfoLoading = true;
-            fetch("/api/devinfo/status")
-                .then((response) => response.json())
+            fetch("/api/devinfo/status", { headers: authHeader() })
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then((data) => {
                     this.devInfoList = data[serial][0];
                     this.devInfoLoading = false;
@@ -559,8 +562,8 @@ export default defineComponent({
             this.targetLimitTypeText = "Relative (%)";
 
             this.limitSettingLoading = true;
-            fetch("/api/limit/status")
-                .then((response) => response.json())
+            fetch("/api/limit/status", { headers: authHeader() })
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then((data) => {
                     this.currentLimitList = data[serial];
                     this.targetLimitList.serial = serial;
@@ -583,7 +586,7 @@ export default defineComponent({
                 headers: authHeader(),
                 body: formData,
             })
-                .then((response) => handleResponse(response, this.$emitter))
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then(
                     (response) => {
                         if (response.type == "success") {
@@ -614,8 +617,8 @@ export default defineComponent({
 
         onShowPowerSettings(serial: number) {
             this.powerSettingLoading = true;
-            fetch("/api/power/status")
-                .then((response) => response.json())
+            fetch("/api/power/status", { headers: authHeader() })
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then((data) => {
                     this.successCommandPower = data[serial].power_set_status;
                     this.powerSettingSerial = serial;
@@ -653,7 +656,7 @@ export default defineComponent({
                 headers: authHeader(),
                 body: formData,
             })
-                .then((response) => handleResponse(response, this.$emitter))
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then(
                     (response) => {
                         if (response.type == "success") {

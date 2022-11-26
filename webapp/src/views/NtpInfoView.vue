@@ -98,6 +98,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { handleResponse, authHeader } from '@/utils/authentication';
 import BasePage from '@/components/BasePage.vue';
 import type { NtpStatus } from "@/types/NtpStatus";
 
@@ -117,8 +118,8 @@ export default defineComponent({
     methods: {
         getNtpInfo() {
             this.dataLoading = true;
-            fetch("/api/ntp/status")
-                .then((response) => response.json())
+            fetch("/api/ntp/status", { headers: authHeader() })
+                .then((response) => handleResponse(response, this.$emitter, this.$router))
                 .then((data) => {
                     this.ntpDataList = data;
                     this.dataLoading = false;
