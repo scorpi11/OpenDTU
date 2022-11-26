@@ -41,7 +41,6 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary mb-3">Save</button>
-            <button v-on:click='restartDtu()' class="btn btn-danger mb-3">Restart</button>
         </form>
     </BasePage>
 </template>
@@ -107,13 +106,6 @@ export default defineComponent({
                         this.showAlert = true;
                     }
                 );
-        },
-        restartDtu() {
-            fetch("/api/dtu/restart", {
-                method: "POST",
-                headers: authHeader(),
-            })
-            this.$router.push("/");
         },
     },
 });

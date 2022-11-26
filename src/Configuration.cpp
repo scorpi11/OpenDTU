@@ -259,9 +259,9 @@ void ConfigurationClass::migrate()
         }
     }
 
-
     config.Cfg_Version = CONFIG_VERSION;
     write();
+    read();
 }
 
 CONFIG_T& ConfigurationClass::get()
