@@ -42,8 +42,8 @@
                 <div class="card-header text-bg-primary">Sunrise Sunset Configuration</div>
                 <div class="card-body">
                     <div class="row mb-3">
-                        <label class="col-sm-4 form-check-label" for="inputSunset">Enable Sunset</label>
-                        <div class="col-sm-8">
+                        <label class="col-sm-2 form-check-label" for="inputSunset">Enable Sunset</label>
+                        <div class="col-sm-10">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="inputSunset"
                                     v-model="ntpConfigList.sunset_enabled" />
