@@ -42,6 +42,63 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header text-bg-primary">{{ $t('ntpadmin.SunriseConfiguration') }}</div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <label class="col-sm-2 form-check-label" for="inputSunset">{{ $t('ntpadmin.EnableSunrise') }}</label>
+                        <div class="col-sm-10">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="inputSunset"
+                                    v-model="ntpConfigList.sunset_enabled" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputLatitude" class="col-sm-2 col-form-label">{{ $t('ntpadmin.Latitude') }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputLatitude" maxlength="10"
+                                placeholder="Latitude" v-model="ntpConfigList.latitude" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputLongitude" class="col-sm-2 col-form-label">{{ $t('ntpadmin.Longitude') }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputLongitude" maxlength="10"
+                                placeholder="Longitude" v-model="ntpConfigList.longitude" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputSunriseOffset" class="col-sm-2 col-form-label">{{ $t('ntpadmin.SunriseOffset') }}</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="inputSunriseOffset" min="-60" max="60"
+                                    placeholder="Offset for Sunrise in Minutes"
+                                    v-model="ntpConfigList.sunrise_offset"
+                                    aria-describedby="sunriseOffsetDescription" />
+                                <span class="input-group-text" id="sunriseOffsetDescription">{{ $t('ntpadmin.Minutes') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="inputSunsetOffset" class="col-sm-2 col-form-label">{{ $t('ntpadmin.SunsetOffset') }}</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="inputSunsetOffset" min="-60" max="60"
+                                    placeholder="Offset for Sunset in Minutes"
+                                    v-model="ntpConfigList.sunset_offset"
+                                    aria-describedby="sunsetOffsetDescription" />
+                                <span class="input-group-text" id="sunsetOffsetDescription">{{ $t('ntpadmin.Minutes') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary mb-3">{{ $t('ntpadmin.Save') }}</button>
         </form>
 

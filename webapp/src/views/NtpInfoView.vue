@@ -49,9 +49,9 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="card mt-5">
-            <div class="card-header text-bg-primary">Sunrise Sunset Information</div>
+            <div class="card-header text-bg-primary">{{ $t('ntpinfo.SunriseInformation') }}</div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed">
@@ -62,21 +62,21 @@
                                     'text-bg-danger': !ntpDataList.sunset_enabled,
                                     'text-bg-success': ntpDataList.sunset_enabled,
                                 }">
-                                    <span v-if="ntpDataList.sunset_enabled">enabled</span>
-                                    <span v-else>disabled</span>
+                                    <span v-if="ntpDataList.sunset_enabled">{{ $t('ntpinfo.Enabled') }}</span>
+                                    <span v-else>{{ $t('ntpinfo.Disabled') }}</span>
                                 </td>
                             </tr>
                             <tr>
-                                <th>Timezone offset</th>
+                                <th>{{ $t('ntpinfo.TimezoneOffset') }}</th>
                                 <td>{{ ntpDataList.timezone_offset }}</td>
                             </tr>
                             <tr>
-                                <th>Sunrise time</th>
-                                <td>{{ ntpDataList.sunrise_time }}</td>
+                                <th>{{ $t('ntpinfo.SunriseTime') }}</th>
+                                <td>{{ $t('ntpinfo.Minutes', { tim: ntpDataList.sunrise_time }) }}</td>
                             </tr>
                             <tr>
-                                <th>Sunset time</th>
-                                <td>{{ ntpDataList.sunset_time }}</td>
+                                <th>{{ $t('ntpinfo.SunsetTime') }}</th>
+                                <td>{{ $t('ntpinfo.Minutes', { tim: ntpDataList.sunset_time }) }}</td>
                             </tr>
                             <tr>
                                 <th>Status</th>
@@ -84,8 +84,8 @@
                                     'text-bg-warning': !ntpDataList.sunset_isdaytime,
                                     'text-bg-success': ntpDataList.sunset_isdaytime,
                                 }">
-                                    <span v-if="ntpDataList.sunset_isdaytime">Daytime</span>
-                                    <span v-else>Nighttime</span>
+                                    <span v-if="ntpDataList.sunset_isdaytime">{{ $t('ntpinfo.Daytime') }}</span>
+                                    <span v-else>{{ $t('ntpinfo.Nighttime') }}</span>
                                 </td>
                             </tr>
                        </tbody>

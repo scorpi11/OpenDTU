@@ -55,10 +55,10 @@ void WebApiNtpClass::onNtpStatus(AsyncWebServerRequest* request)
     root[F("sunset_enabled")] = config.Sunset_Enabled;
     root[F("timezone_offset")] = SunsetClassInst.getTimezoneOffset();
     int min = SunsetClassInst.getSunriseMinutes();
-    snprintf(timeStringBuff, sizeof(timeStringBuff), "%02u:%02u (%+i Minutes)", min / 60, min % 60, Configuration.get().Sunset_Sunriseoffset);
+    snprintf(timeStringBuff, sizeof(timeStringBuff), "%02u:%02u %+i", min / 60, min % 60, Configuration.get().Sunset_Sunriseoffset);
     root[F("sunrise_time")] = timeStringBuff;
     min = SunsetClassInst.getSunsetMinutes();
-    snprintf(timeStringBuff, sizeof(timeStringBuff), "%02u:%02u (%+i Minutes)", min / 60, min % 60, Configuration.get().Sunset_Sunsetoffset);
+    snprintf(timeStringBuff, sizeof(timeStringBuff), "%02u:%02u %+i", min / 60, min % 60, Configuration.get().Sunset_Sunsetoffset);
     root[F("sunset_time")] = timeStringBuff;
     root[F("sunset_isdaytime")] = SunsetClassInst.isDayTime();
 
