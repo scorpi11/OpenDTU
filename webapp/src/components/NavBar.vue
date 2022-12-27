@@ -93,6 +93,7 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
+                    <LocaleSwitcher class="me-2" />
                     <button v-if="isLogged" class="btn btn-outline-danger" @click="signout">{{ $t('menu.Logout') }}</button>
                     <button v-if="!isLogged" class="btn btn-outline-success" @click="signin">{{ $t('menu.Login') }}</button>
                 </form>
@@ -102,15 +103,17 @@
 </template>
 
 <script lang="ts">
+import { isLoggedIn, logout } from '@/utils/authentication';
+import { BIconEgg, BIconSun, BIconTree } from 'bootstrap-icons-vue';
 import { defineComponent } from 'vue';
-import { logout, isLoggedIn } from '@/utils/authentication';
-import { BIconSun, BIconTree, BIconEgg } from 'bootstrap-icons-vue';
+import LocaleSwitcher from './LocaleSwitcher.vue';
 
 export default defineComponent({
     components: {
+        BIconEgg,
         BIconSun,
         BIconTree,
-        BIconEgg,
+        LocaleSwitcher,
     },
     data() {
         return {

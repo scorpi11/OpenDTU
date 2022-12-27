@@ -5,149 +5,65 @@
         </BootstrapAlert>
 
         <form @submit="saveNtpConfig">
-            <div class="card">
-                <div class="card-header text-bg-primary">{{ $t('ntpadmin.NtpConfiguration') }}</div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <label for="inputNtpServer" class="col-sm-2 col-form-label">
-                            {{ $t('ntpadmin.TimeServer') }}
-                            <BIconInfoCircle v-tooltip :title="$t('ntpadmin.TimeServerHint')" />
-                        </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputNtpServer" maxlength="32"
-                                placeholder="Time Server" v-model="ntpConfigList.ntp_server" />
-                        </div>
-                    </div>
+            <CardElement :text="$t('ntpadmin.NtpConfiguration')" textVariant="text-bg-primary">
+                <InputElement :label="$t('ntpadmin.TimeServer')"
+                              v-model="ntpConfigList.ntp_server"
+                              type="text" maxlength="32"
+                              :tooltip="$t('ntpadmin.TimeServerHint')"/>
 
-                    <div class="row mb-3">
-                        <label for="inputTimezone" class="col-sm-2 col-form-label">{{ $t('ntpadmin.Timezone') }}</label>
-                        <div class="col-sm-10">
-                            <select class="form-select" v-model="timezoneSelect">
-                                <option v-for="(config, name) in timezoneList" :key="name + '---' + config"
-                                    :value="name + '---' + config">
-                                    {{ name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="inputTimezoneConfig" class="col-sm-2 col-form-label">
-                            {{ $t('ntpadmin.TimezoneConfig') }}
-                        </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputTimezoneConfig" maxlength="32"
-                                placeholder="Timezone" v-model="ntpConfigList.ntp_timezone" disabled />
-                        </div>
+                <div class="row mb-3">
+                    <label for="inputTimezone" class="col-sm-2 col-form-label">{{ $t('ntpadmin.Timezone') }}</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" v-model="timezoneSelect">
+                            <option v-for="(config, name) in timezoneList" :key="name + '---' + config"
+                                :value="name + '---' + config">
+                                {{ name }}
+                            </option>
+                        </select>
                     </div>
                 </div>
-            </div>
 
-            <div class="card">
-                <div class="card-header text-bg-primary">{{ $t('ntpadmin.SunriseConfiguration') }}</div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <label class="col-sm-2 form-check-label" for="inputSunset">{{ $t('ntpadmin.EnableSunrise') }}</label>
-                        <div class="col-sm-10">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="inputSunset"
-                                    v-model="ntpConfigList.sunset_enabled" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="inputLatitude" class="col-sm-2 col-form-label">{{ $t('ntpadmin.Latitude') }}</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputLatitude" maxlength="10"
-                                placeholder="Latitude" v-model="ntpConfigList.latitude" />
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="inputLongitude" class="col-sm-2 col-form-label">{{ $t('ntpadmin.Longitude') }}</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="inputLongitude" maxlength="10"
-                                placeholder="Longitude" v-model="ntpConfigList.longitude" />
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="inputSunriseOffset" class="col-sm-2 col-form-label">{{ $t('ntpadmin.SunriseOffset') }}</label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="inputSunriseOffset" min="-60" max="60"
-                                    placeholder="Offset for Sunrise in Minutes"
-                                    v-model="ntpConfigList.sunrise_offset"
-                                    aria-describedby="sunriseOffsetDescription" />
-                                <span class="input-group-text" id="sunriseOffsetDescription">{{ $t('ntpadmin.Minutes') }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="inputSunsetOffset" class="col-sm-2 col-form-label">{{ $t('ntpadmin.SunsetOffset') }}</label>
-                        <div class="col-sm-10">
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="inputSunsetOffset" min="-60" max="60"
-                                    placeholder="Offset for Sunset in Minutes"
-                                    v-model="ntpConfigList.sunset_offset"
-                                    aria-describedby="sunsetOffsetDescription" />
-                                <span class="input-group-text" id="sunsetOffsetDescription">{{ $t('ntpadmin.Minutes') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <InputElement :label="$t('ntpadmin.TimezoneConfig')"
+                              v-model="ntpConfigList.ntp_timezone"
+                              type="text" maxlength="32" disabled/>
+            </CardElement>
             <button type="submit" class="btn btn-primary mb-3">{{ $t('ntpadmin.Save') }}</button>
         </form>
 
-        <div class="card">
-            <div class="card-header text-bg-primary">{{ $t('ntpadmin.ManualTimeSynchronization') }}</div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <label for="currentMcuTime" class="col-sm-2 col-form-label">
-                        {{ $t('ntpadmin.CurrentOpenDtuTime') }}
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="currentMcuTime" v-model="mcuTime" disabled />
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="currentLocalTime" class="col-sm-2 col-form-label">
-                        {{ $t('ntpadmin.CurrentLocalTime') }}
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="currentLocalTime" v-model="localTime" disabled />
-                    </div>
-                </div>
-                <div class="text-center mb-3">
-                    <button type="button" class="btn btn-danger" @click="setCurrentTime()">
-                        {{ $t('ntpadmin.SynchronizeTime') }}
-                    </button>
-                </div>
-                <div class="alert alert-secondary" role="alert" v-html="$t('ntpadmin.SynchronizeTimeHint')"></div>
+        <CardElement :text="$t('ntpadmin.ManualTimeSynchronization')" textVariant="text-bg-primary" add-space>
+            <InputElement :label="$t('ntpadmin.CurrentOpenDtuTime')"
+                           v-model="mcuTime"
+                           type="text" disabled/>
 
+            <InputElement :label="$t('ntpadmin.CurrentLocalTime')"
+                          v-model="localTime"
+                          type="text" disabled/>
+
+            <div class="text-center mb-3">
+                <button type="button" class="btn btn-danger" @click="setCurrentTime()">
+                    {{ $t('ntpadmin.SynchronizeTime') }}
+                </button>
             </div>
-        </div>
+            <div class="alert alert-secondary" role="alert" v-html="$t('ntpadmin.SynchronizeTimeHint')"></div>
+        </CardElement>
     </BasePage>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import BasePage from '@/components/BasePage.vue';
 import BootstrapAlert from "@/components/BootstrapAlert.vue";
-import { handleResponse, authHeader } from '@/utils/authentication';
+import CardElement from '@/components/CardElement.vue';
+import InputElement from '@/components/InputElement.vue';
 import type { NtpConfig } from "@/types/NtpConfig";
-import {
-    BIconInfoCircle,
-} from 'bootstrap-icons-vue';
+import { authHeader, handleResponse } from '@/utils/authentication';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     components: {
         BasePage,
         BootstrapAlert,
-        BIconInfoCircle,
+        CardElement,
+        InputElement,
     },
     data() {
         return {

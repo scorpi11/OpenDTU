@@ -12,20 +12,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { handleResponse, authHeader } from '@/utils/authentication';
 import BasePage from '@/components/BasePage.vue';
-import HardwareInfo from "@/components/HardwareInfo.vue";
 import FirmwareInfo from "@/components/FirmwareInfo.vue";
+import HardwareInfo from "@/components/HardwareInfo.vue";
 import MemoryInfo from "@/components/MemoryInfo.vue";
 import RadioInfo from "@/components/RadioInfo.vue";
 import type { SystemStatus } from '@/types/SystemStatus';
+import { authHeader, handleResponse } from '@/utils/authentication';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
     components: {
         BasePage,
-        HardwareInfo,
         FirmwareInfo,
+        HardwareInfo,
         MemoryInfo,
         RadioInfo,
     },
