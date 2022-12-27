@@ -43,6 +43,47 @@
                 </table>
             </div>
         </CardElement>
+
+        <CardElement :text="$t('ntpinfo.SunriseInformation')" textVariant="text-bg-primary" add-space>
+            <div class="table-responsive">
+                <table class="table table-hover table-condensed">
+                    <tbody>
+                        <tr>
+                            <th>Status</th>
+                            <td class="badge" :class="{
+                                'text-bg-danger': !ntpDataList.sunset_enabled,
+                                'text-bg-success': ntpDataList.sunset_enabled,
+                            }">
+                                <span v-if="ntpDataList.sunset_enabled">{{ $t('ntpinfo.Enabled') }}</span>
+                                <span v-else>{{ $t('ntpinfo.Disabled') }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ $t('ntpinfo.TimezoneOffset') }}</th>
+                            <td>{{ ntpDataList.timezone_offset }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ $t('ntpinfo.SunriseTime') }}</th>
+                            <td>{{ $t('ntpinfo.Minutes', { tim: ntpDataList.sunrise_time }) }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ $t('ntpinfo.SunsetTime') }}</th>
+                            <td>{{ $t('ntpinfo.Minutes', { tim: ntpDataList.sunset_time }) }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td class="badge" :class="{
+                                'text-bg-warning': !ntpDataList.sunset_isdaytime,
+                                'text-bg-success': ntpDataList.sunset_isdaytime,
+                            }">
+                                <span v-if="ntpDataList.sunset_isdaytime">{{ $t('ntpinfo.Daytime') }}</span>
+                                <span v-else>{{ $t('ntpinfo.Nighttime') }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </CardElement>
     </BasePage>
 </template>
 
