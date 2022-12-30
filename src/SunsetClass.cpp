@@ -56,8 +56,8 @@ void SunsetClass::loop()
 
 void SunsetClass::setLocation()
 {
-    _latitude = std::atoi(Configuration.get().Sunset_Latitude);
-    _longitude = std::atoi(Configuration.get().Sunset_Longitude);
+    _latitude = std::stod(Configuration.get().Sunset_Latitude);
+    _longitude = std::stod(Configuration.get().Sunset_Longitude);
 
     // Set default values
     _currentDay = -1;
