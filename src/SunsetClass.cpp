@@ -32,7 +32,7 @@ void SunsetClass::loop()
         setLocation();
 
     struct tm timeinfo;
-    if (!getLocalTime(&timeinfo, 0)) { // Time is not valid
+    if (!getLocalTime(&timeinfo, 5)) { // Time is not valid
         _isDayTime = true;
         _currentDay = -1;
         _sunriseMinutes = _sunsetMinutes = 0;
