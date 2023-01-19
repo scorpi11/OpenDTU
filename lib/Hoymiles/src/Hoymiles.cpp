@@ -23,7 +23,7 @@ void HoymilesClass::init(SPIClass* initialisedSpiBus, uint8_t pinCE, uint8_t pin
     _radio->init(initialisedSpiBus, pinCE, pinIRQ);
 }
 
-void HoymilesClass::loop(bool operate)
+void HoymilesClass::loop()
 {
     HOY_SEMAPHORE_TAKE();
     _radio->loop();

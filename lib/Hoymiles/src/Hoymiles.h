@@ -15,7 +15,7 @@
 class HoymilesClass {
 public:
     void init(SPIClass* initialisedSpiBus, uint8_t pinCE, uint8_t pinIRQ);
-    void loop(bool bOperate);
+    void loop();
 
     void setMessageOutput(Print* output);
     Print* getMessageOutput();

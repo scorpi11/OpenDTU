@@ -157,7 +157,7 @@ void loop()
 {
     NetworkSettings.loop();
     yield();
-    Hoymiles.loop(!Configuration.get().Sunset_Enabled || SunsetClassInst.isDayTime());
+    Hoymiles.loop();
     yield();
     SunsetClassInst.loop();
     yield();
