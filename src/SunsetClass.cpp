@@ -51,11 +51,19 @@ void SunsetClass::loop()
 
     if (_currentMinute != timeinfo.tm_min) {
         int minutesPastMidnight = timeinfo.tm_hour * 60 + timeinfo.tm_min;
-        
+
         _currentMinute = timeinfo.tm_min;
 
-        _isDayTime = (minutesPastMidnight >= (_sunriseMinutes + Configuration.get().Sunset_Sunriseoffset)) 
+        int sunrise = SunsetClassInst.getSunriseMinutes() + Configuration.get().Sunset_Sunriseoffset;
+        _isDayTime = (minutesPastMidnight >= sunrise)
             && (minutesPastMidnight < (_sunsetMinutes + Configuration.get().Sunset_Sunsetoffset));
+
+        bool afterSunrise = minutesPastMidnight > sunrise;
+        if (afterSunrise == true) {
+            _minutesUntilSunrise = 1440 - minutesPastMidnight + sunrise;
+        } else {
+            _minutesUntilSunrise = sunrise - minutesPastMidnight;
+        }
     }
 }
 
@@ -102,4 +110,8 @@ bool SunsetClass::isDayTime()
     return _isDayTime;
 }
 
+int SunsetClass::getMinutesUntilSunrise()
+{
+    return _minutesUntilSunrise;
+}
 SunsetClass SunsetClassInst;

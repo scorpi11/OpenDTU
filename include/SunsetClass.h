@@ -13,6 +13,7 @@ public:
     int getTimezoneOffset();
     int getSunriseMinutes();
     int getSunsetMinutes();
+    int getMinutesUntilSunrise();
     bool isDayTime();
 
 private:
@@ -26,6 +27,7 @@ private:
     bool _isDayTime;
     int _sunriseMinutes;
     int _sunsetMinutes;
+    int _minutesUntilSunrise;
 };
 
 extern SunsetClass SunsetClassInst;
