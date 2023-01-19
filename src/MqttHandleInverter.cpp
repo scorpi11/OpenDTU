@@ -16,6 +16,14 @@
 
 MqttHandleInverterClass MqttHandleInverter;
 
+#include <WiFiUdp.h>
+        WiFiUDP UDP;
+
+#include <WakeOnLan.h>
+        WakeOnLan WOL(UDP); // Pass WiFiUDP class
+
+//#include <ESP8266WiFi.h>
+
 void MqttHandleInverterClass::init()
 {
     using std::placeholders::_1;
@@ -215,7 +223,13 @@ void MqttHandleInverterClass::onMqttMessage(const espMqttClientTypes::MessagePro
     } else if (!strcmp(setting, TOPIC_SUB_POWER)) {
         // Turn inverter on or off
         MessageOutput.printf("Set inverter power to: %d\r\n", payload_val);
-        inv->sendPowerControlRequest(Hoymiles.getRadio(), payload_val > 0);
+        WOL.setRepeat(3, 100); // Repeat the packet three times with 100ms delay between
+        WOL.calculateBroadcastAddress(WiFi.localIP(), WiFi.subnetMask());
+
+        const char *MACAddress = "2c:f0:5d:3b:c3:c7";
+        WOL.sendMagicPacket(MACAddress);
+        WOL.sendMagicPacket(MACAddress, 7);
+        //inv->sendPowerControlRequest(Hoymiles.getRadio(), payload_val > 0);
 
     } else if (!strcmp(setting, TOPIC_SUB_RESTART)) {
         // Restart inverter
