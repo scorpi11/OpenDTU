@@ -15,6 +15,7 @@
 #include "Utils.h"
 #include "WebApi.h"
 #include "Blinker.h"
+#include "SleepModeClass.h"
 #include "defaults.h"
 #include <Arduino.h>
 #include <Hoymiles.h>
@@ -151,6 +152,7 @@ void setup()
     } else {
         MessageOutput.println(F("Invalid pin config"));
     }
+    SleepMode.init();
 }
 
 void loop()
@@ -173,4 +175,7 @@ void loop()
     yield();
     Blinker.loop();
     yield();
+    SleepMode.loop();
+    yield();
 }
+

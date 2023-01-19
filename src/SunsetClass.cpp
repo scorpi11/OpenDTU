@@ -49,7 +49,7 @@ void SunsetClass::loop()
         _sunsetMinutes = (int)_sunSet.calcSunset();
 
         int secondsPastMidnight = timeinfo.tm_hour * 60 + timeinfo.tm_min;
-        _isDayTime = (secondsPastMidnight >= (_sunriseMinutes + Configuration.get().Sunset_Sunriseoffset)) 
+        _isDayTime = (secondsPastMidnight >= (_sunriseMinutes + Configuration.get().Sunset_Sunriseoffset))
             && (secondsPastMidnight < (_sunsetMinutes + Configuration.get().Sunset_Sunsetoffset));
     }
 }
