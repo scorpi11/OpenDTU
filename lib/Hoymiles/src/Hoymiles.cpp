@@ -34,7 +34,7 @@ void HoymilesClass::loop(bool operate)
 
             if (_radio->isIdle()) {
                 std::shared_ptr<InverterAbstract> iv = getInverterByPos(inverterPos);
-                if (iv != nullptr) {
+                if ((iv != nullptr) && operate){
                     _messageOutput->print(F("Fetch inverter: "));
                     _messageOutput->println(iv->serial(), HEX);
 
