@@ -21,6 +21,7 @@ private:
     double _latitude;
     double _longitude;
     int _currentDay;
+    int _currentMinute;
     int _timezoneOffset;
     bool _isDayTime;
     int _sunriseMinutes;

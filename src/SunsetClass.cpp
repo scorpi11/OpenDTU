@@ -22,7 +22,7 @@ void SunsetClass::loop()
     if (!Configuration.get().Sunset_Enabled) {
         if (_initialized) {
             _isDayTime = true;
-            _currentDay = -1;
+            _currentDay = _currentMinute = -1;
             _sunriseMinutes = _sunsetMinutes = 0;
             _initialized = false;
         }
@@ -34,7 +34,7 @@ void SunsetClass::loop()
     struct tm timeinfo;
     if (!getLocalTime(&timeinfo, 5)) { // Time is not valid
         _isDayTime = true;
-        _currentDay = -1;
+        _currentDay = _currentMinute = -1;
         _sunriseMinutes = _sunsetMinutes = 0;
         return;
     }
@@ -47,10 +47,15 @@ void SunsetClass::loop()
         _sunSet.setTZOffset(_timezoneOffset + (timeinfo.tm_isdst != 0 ? 1 : 0));
         _sunriseMinutes = (int)_sunSet.calcSunrise();
         _sunsetMinutes = (int)_sunSet.calcSunset();
+    }
 
-        int secondsPastMidnight = timeinfo.tm_hour * 60 + timeinfo.tm_min;
-        _isDayTime = (secondsPastMidnight >= (_sunriseMinutes + Configuration.get().Sunset_Sunriseoffset)) 
-            && (secondsPastMidnight < (_sunsetMinutes + Configuration.get().Sunset_Sunsetoffset));
+    if (_currentMinute != timeinfo.tm_min) {
+        int minutesPastMidnight = timeinfo.tm_hour * 60 + timeinfo.tm_min;
+        
+        _currentMinute = timeinfo.tm_min;
+
+        _isDayTime = (minutesPastMidnight >= (_sunriseMinutes + Configuration.get().Sunset_Sunriseoffset)) 
+            && (minutesPastMidnight < (_sunsetMinutes + Configuration.get().Sunset_Sunsetoffset));
     }
 }
 
@@ -60,7 +65,7 @@ void SunsetClass::setLocation()
     _longitude = std::stod(Configuration.get().Sunset_Longitude);
 
     // Set default values
-    _currentDay = -1;
+    _currentDay = _currentMinute = -1;
     _isDayTime = true;
     _sunriseMinutes = _sunsetMinutes = 0;
 
