@@ -491,6 +491,13 @@
         "SelectedProfile": "Ausgewähltes Profil:",
         "DefaultProfile": "(Standard Einstellungen)",
         "ProfileHint": "Ihr Gerät reagiert möglicherweise nicht mehr, wenn Sie ein inkompatibles Profil wählen. In diesem Fall müssen Sie eine Löschung über das serielle Interface durchführen.",
+        "Display": "Display",
+        "PowerSafe": "Power Safe aktivieren:",
+        "PowerSafeHint": "Schaltet das Display aus wenn kein Wechselrichter produziert",
+        "Screensaver": "Screensaver aktivieren:",
+        "ScreensaverHint": "Bewegt die Ausgabe bei jeder Aktualisierung um ein Einbrennen zu verhindern. (Nützlich v.a. für OLED Displays)",
+        "ShowLogo": "Logo anzeigen:",
+        "Contrast": "Kontrast ({contrast}):",
         "Save": "@:dtuadmin.Save"
     },
     "pininfo": {
